@@ -1,0 +1,930 @@
+/* 
+===============================
+   全局样式
+=============================== 
+*/
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #f97316;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --background-light: #f8fafc;
+    --white: #ffffff;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --transition: all 0.3s ease-in-out;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+section {
+    padding: 80px 0;
+}
+
+.section {
+    position: relative;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+    position: relative;
+    display: inline-block;
+}
+
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: var(--secondary-color);
+}
+
+.section-header p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+ul {
+    list-style: none;
+}
+
+/* 
+===============================
+   按钮样式
+=============================== 
+*/
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: #1e40af;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+/* 
+===============================
+   导航栏
+=============================== 
+*/
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    padding: 15px 0;
+    transition: var(--transition);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+}
+
+.logo span {
+    color: var(--primary-color);
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu li {
+    margin-left: 30px;
+}
+
+.menu a {
+    color: var(--text-dark);
+    font-weight: 500;
+    position: relative;
+}
+
+.menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.menu a:hover::after, .menu a.active::after {
+    width: 100%;
+}
+
+.menu a.btn-primary {
+    color: var(--white);
+}
+
+.menu a.btn-primary::after {
+    display: none;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* 
+===============================
+   首页封面
+=============================== 
+*/
+.hero {
+    padding: 160px 0 80px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hero-content {
+    flex: 1;
+    padding-right: 50px;
+}
+
+.main-title {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.sub-title {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    margin-bottom: 40px;
+    font-weight: 400;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.hero-image {
+    flex: 1;
+    text-align: center;
+}
+
+/* 
+===============================
+   转型挑战
+=============================== 
+*/
+.challenges {
+    background-color: var(--white);
+}
+
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+}
+
+.challenge-card {
+    background-color: var(--background-light);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.challenge-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 1.8rem;
+}
+
+.challenge-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.challenge-card p {
+    color: var(--text-light);
+}
+
+/* 
+===============================
+   专业优势
+=============================== 
+*/
+.advantages {
+    background-color: var(--background-light);
+}
+
+.advantages-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: var(--text-dark);
+}
+
+.solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-bottom: 60px;
+}
+
+.solution-card {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: var(--transition);
+    overflow: hidden;
+    z-index: 1;
+}
+
+.solution-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    transition: var(--transition);
+    z-index: -1;
+}
+
+.solution-card:hover {
+    transform: translateY(-5px);
+}
+
+.solution-card:hover::before {
+    width: 100%;
+    opacity: 0.1;
+}
+
+.manufacturing::before { background-color: #2563eb; }
+.retail::before { background-color: #f97316; }
+.service::before { background-color: #8b5cf6; }
+.logistics::before { background-color: #10b981; }
+.healthcare::before { background-color: #ef4444; }
+
+.industry-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.solution-card h4 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.solution-card ul li {
+    margin-bottom: 10px;
+    color: var(--text-light);
+    position: relative;
+    padding-left: 20px;
+}
+
+.solution-card ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.step-card {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: var(--transition);
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.step-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.step-card p {
+    color: var(--text-light);
+}
+
+/* 
+===============================
+   客户案例
+=============================== 
+*/
+.case-studies {
+    background-color: var(--white);
+}
+
+.cases-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.case-card {
+    background-color: var(--background-light);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.case-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.case-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.case-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 1.5rem;
+}
+
+.case-header h3 {
+    font-size: 1.4rem;
+}
+
+.case-results {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.result-item {
+    text-align: center;
+    flex: 1;
+}
+
+.result-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.result-desc {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.case-description p {
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+/* 
+===============================
+   技术能力
+=============================== 
+*/
+.technologies {
+    background-color: var(--background-light);
+}
+
+.tech-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.tech-category {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.tech-category h3 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.tech-category h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--secondary-color);
+}
+
+.tech-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.tech-item {
+    display: flex;
+    align-items: center;
+    background-color: var(--background-light);
+    border-radius: 50px;
+    padding: 8px 20px;
+    transition: var(--transition);
+    cursor: default;
+}
+
+.tech-item:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-3px);
+}
+
+.tech-item i {
+    margin-right: 8px;
+    font-size: 1rem;
+}
+
+/* 
+===============================
+   联系我们
+=============================== 
+*/
+.contact {
+    background-color: var(--white);
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.qr-code {
+    text-align: center;
+}
+
+.qr-code img {
+    max-width: 200px;
+    margin-bottom: 15px;
+    border: 5px solid var(--background-light);
+    border-radius: 10px;
+}
+
+.key-message {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.message-item {
+    display: flex;
+    align-items: flex-start;
+}
+
+.message-item i {
+    color: var(--primary-color);
+    margin-right: 15px;
+    font-size: 1.2rem;
+    margin-top: 5px;
+}
+
+.message-item p {
+    font-style: italic;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+.contact-form {
+    background-color: var(--background-light);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.contact-form h3 {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.contact-form h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--secondary-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* 
+===============================
+   页脚
+=============================== 
+*/
+.footer {
+    background-color: #1e293b;
+    color: var(--white);
+    padding: 70px 0 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 50px;
+    margin-bottom: 50px;
+}
+
+.footer-logo h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.footer-logo span {
+    color: var(--primary-color);
+}
+
+.footer-logo p {
+    color: #94a3b8;
+    line-height: 1.7;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.footer-column h3 {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background-color: var(--secondary-color);
+}
+
+.footer-column ul li {
+    margin-bottom: 15px;
+}
+
+.footer-column ul li a {
+    color: #94a3b8;
+    transition: var(--transition);
+}
+
+.footer-column ul li a:hover {
+    color: var(--white);
+    padding-left: 5px;
+}
+
+.footer-column ul li i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    color: var(--white);
+    font-size: 1.2rem;
+}
+
+.social-icons a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-5px);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+/* 
+===============================
+   响应式设计
+=============================== 
+*/
+@media screen and (max-width: 992px) {
+    .section-header h2 {
+        font-size: 2.2rem;
+    }
+    
+    .hero .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .hero-content {
+        padding-right: 0;
+        margin-bottom: 50px;
+    }
+    
+    .cta-buttons {
+        justify-content: center;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        flex-direction: column;
+        background-color: var(--white);
+        width: 100%;
+        text-align: center;
+        transition: var(--transition);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px 0;
+    }
+    
+    .menu.active {
+        left: 0;
+    }
+    
+    .menu li {
+        margin: 15px 0;
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    .hero {
+        padding: 130px 0 60px;
+    }
+    
+    .section {
+        padding: 60px 0;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .main-title {
+        font-size: 2.2rem;
+    }
+    
+    .sub-title {
+        font-size: 1.3rem;
+    }
+    
+    .tech-matrix, 
+    .cases-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .section-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .main-title {
+        font-size: 1.8rem;
+    }
+    
+    .sub-title {
+        font-size: 1.1rem;
+    }
+    
+    .steps-container, 
+    .solutions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .case-results {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .contact-form {
+        padding: 25px;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        width: 100%;
+    }
+} 

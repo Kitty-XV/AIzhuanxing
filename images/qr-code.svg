@@ -1,0 +1,56 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="white"/>
+  <!-- 二维码模拟 -->
+  <rect x="40" y="40" width="120" height="120" fill="#ffffff"/>
+  <!-- 外框 -->
+  <rect x="40" y="40" width="120" height="120" stroke="#1e293b" stroke-width="4" fill="none"/>
+  
+  <!-- 左上定位符 -->
+  <rect x="50" y="50" width="30" height="30" fill="#2563eb"/>
+  <rect x="55" y="55" width="20" height="20" fill="white"/>
+  <rect x="60" y="60" width="10" height="10" fill="#2563eb"/>
+  
+  <!-- 右上定位符 -->
+  <rect x="120" y="50" width="30" height="30" fill="#2563eb"/>
+  <rect x="125" y="55" width="20" height="20" fill="white"/>
+  <rect x="130" y="60" width="10" height="10" fill="#2563eb"/>
+  
+  <!-- 左下定位符 -->
+  <rect x="50" y="120" width="30" height="30" fill="#2563eb"/>
+  <rect x="55" y="125" width="20" height="20" fill="white"/>
+  <rect x="60" y="130" width="10" height="10" fill="#2563eb"/>
+  
+  <!-- 二维码元素 - 随机数据点 -->
+  <rect x="90" y="60" width="6" height="6" fill="#1e293b"/>
+  <rect x="102" y="60" width="6" height="6" fill="#1e293b"/>
+  <rect x="90" y="72" width="6" height="6" fill="#1e293b"/>
+  <rect x="102" y="72" width="6" height="6" fill="#1e293b"/>
+  <rect x="60" y="90" width="6" height="6" fill="#1e293b"/>
+  <rect x="72" y="90" width="6" height="6" fill="#1e293b"/>
+  <rect x="84" y="90" width="6" height="6" fill="#1e293b"/>
+  <rect x="96" y="90" width="6" height="6" fill="#1e293b"/>
+  <rect x="108" y="90" width="6" height="6" fill="#1e293b"/>
+  <rect x="120" y="90" width="6" height="6" fill="#1e293b"/>
+  <rect x="60" y="102" width="6" height="6" fill="#1e293b"/>
+  <rect x="72" y="102" width="6" height="6" fill="#1e293b"/>
+  <rect x="84" y="102" width="6" height="6" fill="#1e293b"/>
+  <rect x="96" y="102" width="6" height="6" fill="#1e293b"/>
+  <rect x="108" y="102" width="6" height="6" fill="#1e293b"/>
+  <rect x="120" y="102" width="6" height="6" fill="#1e293b"/>
+  <rect x="90" y="114" width="6" height="6" fill="#1e293b"/>
+  <rect x="102" y="114" width="6" height="6" fill="#1e293b"/>
+  <rect x="114" y="114" width="6" height="6" fill="#1e293b"/>
+  <rect x="90" y="126" width="6" height="6" fill="#1e293b"/>
+  <rect x="102" y="126" width="6" height="6" fill="#1e293b"/>
+  <rect x="114" y="126" width="6" height="6" fill="#1e293b"/>
+  <rect x="126" y="126" width="6" height="6" fill="#1e293b"/>
+  <rect x="96" y="120" width="6" height="6" fill="#1e293b"/>
+  <rect x="108" y="132" width="6" height="6" fill="#1e293b"/>
+  <rect x="120" y="132" width="6" height="6" fill="#1e293b"/>
+  <rect x="90" y="138" width="6" height="6" fill="#1e293b"/>
+  <rect x="102" y="138" width="6" height="6" fill="#1e293b"/>
+  <rect x="114" y="138" width="6" height="6" fill="#1e293b"/>
+  
+  <!-- 中心标志 -->
+  <text x="100" y="108" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#f97316">AI转型</text>
+</svg> 
