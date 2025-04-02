@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI转型 - 业务提升潜力测算</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>AI<span>转型</span> <small>业务提升潜力测算</small></h1>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="calculator-intro">
+            <div class="container">
+                <div class="intro-content">
+                    <h2>了解您的业务提升潜力</h2>
+                    <p>完成以下简短问卷，获取专业AI分析报告，发现业务增长机会</p>
+                    <div class="intro-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-info">
+                                <h3>填写基本信息</h3>
+                                <p>提供您的企业基本情况</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-info">
+                                <h3>回答关键问题</h3>
+                                <p>评估您的业务现状与痛点</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-info">
+                                <h3>获取分析报告</h3>
+                                <p>查看业务提升空间与方案</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="calculator-form active" id="part1">
+            <div class="container">
+                <div class="form-header">
+                    <h2>第一部分：企业基本信息</h2>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 33%"></div>
+                    </div>
+                    <p class="progress-text">完成度 1/3</p>
+                </div>
+                <form id="calculatorForm">
+                    <div class="form-group">
+                        <label for="companyName">企业名称</label>
+                        <input type="text" id="companyName" name="companyName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="industry">所属行业</label>
+                        <select id="industry" name="industry" required>
+                            <option value="" disabled selected>请选择行业</option>
+                            <option value="manufacturing">制造业</option>
+                            <option value="retail">零售电商</option>
+                            <option value="service">服务业</option>
+                            <option value="logistics">物流供应链</option>
+                            <option value="healthcare">医疗健康</option>
+                            <option value="other">其他行业</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="companySize">企业规模</label>
+                        <select id="companySize" name="companySize" required>
+                            <option value="" disabled selected>请选择企业规模</option>
+                            <option value="small">小型企业（50人以下）</option>
+                            <option value="medium">中型企业（50-200人）</option>
+                            <option value="large">大型企业（200人以上）</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="annualRevenue">年营业额（万元）</label>
+                        <select id="annualRevenue" name="annualRevenue" required>
+                            <option value="" disabled selected>请选择年营业额范围</option>
+                            <option value="level1">1000万以下</option>
+                            <option value="level2">1000-5000万</option>
+                            <option value="level3">5000-1亿</option>
+                            <option value="level4">1亿以上</option>
+                        </select>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn-next" onclick="nextPart()">下一步</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="calculator-form" id="part2">
+            <div class="container">
+                <div class="form-header">
+                    <h2>第二部分：业务现状评估</h2>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 66%"></div>
+                    </div>
+                    <p class="progress-text">完成度 2/3</p>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label>您企业目前的数字化程度如何？</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="digitalLevel" value="low" required>
+                                <span class="radio-text">低（主要依靠人工操作，很少使用数字工具）</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="digitalLevel" value="medium" required>
+                                <span class="radio-text">中（使用基础数字工具，但系统间互不连通）</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="digitalLevel" value="high" required>
+                                <span class="radio-text">高（已有一定数字化系统，但需要优化升级）</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>您企业面临的主要挑战是什么？（可多选）</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="challenges" value="labor_cost">
+                                <span class="checkbox-text">人力成本持续上升</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="challenges" value="data_quality">
+                                <span class="checkbox-text">数据质量低下，难以支撑决策</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="challenges" value="market_competition">
+                                <span class="checkbox-text">市场竞争加剧，需要差异化突破</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="challenges" value="system_limitation">
+                                <span class="checkbox-text">现有系统难以适应业务快速变化</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="challenges" value="roi_uncertain">
+                                <span class="checkbox-text">投入回报难以评估，决策风险大</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="priorityArea">您期望优先提升的业务领域是？</label>
+                        <select id="priorityArea" name="priorityArea" required>
+                            <option value="" disabled selected>请选择优先领域</option>
+                            <option value="production">生产制造</option>
+                            <option value="sales">销售营销</option>
+                            <option value="service">客户服务</option>
+                            <option value="management">内部管理</option>
+                            <option value="supplychain">供应链优化</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="aiAwareness">您对AI技术在业务中的应用了解程度？</label>
+                        <div class="range-slider">
+                            <input type="range" id="aiAwareness" name="aiAwareness" min="1" max="5" value="3">
+                            <div class="range-labels">
+                                <span>完全不了解</span>
+                                <span>非常了解</span>
+                            </div>
+                            <div class="range-value" id="aiAwarenessValue">中等了解</div>
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn-prev" onclick="prevPart()">上一步</button>
+                        <button type="button" class="btn-next" onclick="nextPart()">下一步</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="calculator-form" id="part3">
+            <div class="container">
+                <div class="form-header">
+                    <h2>第三部分：业务细节参数</h2>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 100%"></div>
+                    </div>
+                    <p class="progress-text">完成度 3/3</p>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label>您企业的数据应用现状如何？</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="dataUsage" value="low" required>
+                                <span class="radio-text">数据分散存储，难以整合分析</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="dataUsage" value="medium" required>
+                                <span class="radio-text">有数据仓库但缺乏高效分析工具</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="dataUsage" value="high" required>
+                                <span class="radio-text">已建立完整数据体系，需进一步智能化</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>员工对新技术的接受度如何？</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="techAcceptance" value="low" required>
+                                <span class="radio-text">较为保守，倾向于传统方式</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="techAcceptance" value="medium" required>
+                                <span class="radio-text">中等，愿意接受但需要培训</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="techAcceptance" value="high" required>
+                                <span class="radio-text">积极接受，主动学习新技术</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itBudget">您企业年度IT/数字化预算占收入比例？</label>
+                        <select id="itBudget" name="itBudget" required>
+                            <option value="" disabled selected>请选择预算比例</option>
+                            <option value="verylow">低于1%</option>
+                            <option value="low">1%-3%</option>
+                            <option value="medium">3%-5%</option>
+                            <option value="high">5%-10%</option>
+                            <option value="veryhigh">10%以上</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>您最期望AI技术在哪些方面帮助企业？（可多选）</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="aiExpectations" value="cost_reduction">
+                                <span class="checkbox-text">降低运营成本</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="aiExpectations" value="efficiency">
+                                <span class="checkbox-text">提高运营效率</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="aiExpectations" value="decision">
+                                <span class="checkbox-text">辅助决策分析</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="aiExpectations" value="innovation">
+                                <span class="checkbox-text">产品/服务创新</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="aiExpectations" value="experience">
+                                <span class="checkbox-text">提升客户体验</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="competitorsStatus">行业竞争对手的数字化/AI应用情况如何？</label>
+                        <select id="competitorsStatus" name="competitorsStatus" required>
+                            <option value="" disabled selected>请选择竞争对手情况</option>
+                            <option value="behind">大多数尚未开始数字化转型</option>
+                            <option value="similar">与我们水平相当</option>
+                            <option value="ahead">多数已实现较高水平数字化</option>
+                            <option value="leading">行业领先企业已大规模应用AI</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <p class="disclaimer">注：本测算结果仅供参考，不会收集您的个人联系信息。</p>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn-prev" onclick="prevPart()">上一步</button>
+                        <button type="button" class="btn-primary" onclick="submitForm()">生成分析报告</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="report-section" id="report">
+            <div class="container">
+                <div class="report-header">
+                    <h2>您的业务提升潜力分析</h2>
+                    <p>基于您提供的信息，我们生成了以下分析报告</p>
+                </div>
+                <div class="report-content">
+                    <div class="loading-spinner" id="loadingSpinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>正在生成分析报告，请稍候...</p>
+                    </div>
+                    <div class="report-body" id="reportBody">
+                        <!-- 报告内容将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 AI转型咨询服务. 保留所有权利.</p>
+            <a href="../index.html" class="return-link">返回主页</a>
+        </div>
+    </footer>
+
+    <script src="js/calculator.js"></script>
+</body>
+</html> 
