@@ -1,292 +1,130 @@
 /**
  * 初始化网站功能
  */
-document.addEventListener('DOMContentLoaded', () => {
-    // 导航菜单功能
-    initNavigation();
-    
-    // 滚动动画效果
+document.addEventListener('DOMContentLoaded', function() {
+    initMenuToggle();
     initScrollEffects();
-    
-    // 二维码测算功能
-    initPotentialTest();
-    
-    // 卡片悬停效果
-    initCardHoverEffects();
-    
-    // 页面加载动画
+    initCounterAnimation();
+    initScrollIndicator();
+    initTechItemsAnimation();
     initPageLoadAnimation();
 });
 
 /**
- * 初始化导航菜单功能
+ * 初始化菜单切换功能
  */
-function initNavigation() {
+function initMenuToggle() {
     const menuToggle = document.querySelector('.menu-toggle');
     const menu = document.querySelector('.menu');
-    const menuLinks = document.querySelectorAll('.menu a');
-    const header = document.querySelector('.header');
     
-    // 菜单切换功能
     if (menuToggle) {
-        menuToggle.addEventListener('click', () => {
+        menuToggle.addEventListener('click', function() {
             menu.classList.toggle('active');
             menuToggle.classList.toggle('active');
-            // 添加菜单图标动画效果
-            menuToggle.querySelector('i').classList.toggle('fa-bars');
-            menuToggle.querySelector('i').classList.toggle('fa-times');
         });
     }
+}
+
+/**
+ * 初始化滚动效果
+ */
+function initScrollEffects() {
+    const header = document.getElementById('header');
     
-    // 点击链接关闭菜单
-    menuLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            // 平滑滚动到目标位置
-            const targetId = link.getAttribute('href');
-            if (targetId.startsWith('#') && targetId !== '#') {
-                e.preventDefault();
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const headerHeight = header.offsetHeight;
-                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-            
-            menu.classList.remove('active');
-            if (menuToggle.querySelector('i.fa-times')) {
-                menuToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
-            }
-        });
-    });
-    
-    // 滚动时导航栏样式变化
-    window.addEventListener('scroll', () => {
+    window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
-    });
-    
-    // 激活当前部分的导航链接
-    window.addEventListener('scroll', highlightNavLink);
-}
-
-/**
- * 根据滚动位置高亮导航链接
- */
-function highlightNavLink() {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.menu a');
-    
-    let current = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        const headerHeight = document.querySelector('.header').offsetHeight;
         
-        if (pageYOffset >= (sectionTop - headerHeight - 150)) {
-            current = section.getAttribute('id');
-        }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
+        // 检查元素是否进入视口
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+        animateElements.forEach(element => {
+            if (isElementInViewport(element)) {
+                element.classList.add('animate');
+            }
+        });
     });
 }
 
 /**
- * 初始化滚动动画效果
+ * 检查元素是否在视口中
+ * @param {Element} el - DOM元素
+ * @returns {boolean} - 元素是否在视口中
  */
-function initScrollEffects() {
-    // 滚动到元素时添加动画效果
-    const animatedElements = document.querySelectorAll(
-        '.section-header, .challenge-card, .solution-card, .step-card, .case-card, .tech-category, .feature-item, .potential-qrcode'
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+        rect.bottom >= 0
     );
+}
+
+/**
+ * 初始化计数器动画
+ */
+function initCounterAnimation() {
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200; // 数值越大，动画越慢
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                // 一段时间后删除观察，提高性能
-                setTimeout(() => {
-                    observer.unobserve(entry.target);
-                }, 1000);
-            }
-        });
-    }, { threshold: 0.15 });
-    
-    // 设置初始动画样式
-    animatedElements.forEach((element, index) => {
-        // 创建不同的动画延迟，形成序列效果
-        const delay = Math.min(index * 0.1, 0.5);
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        element.style.transition = `opacity 0.8s ease-out ${delay}s, transform 0.8s ease-out ${delay}s`;
-        
-        // 添加自定义类以便添加观察
-        element.classList.add('scroll-animate');
-        
-        // 将元素添加到观察器
-        observer.observe(element);
+    // 首次进入页面时检查
+    document.addEventListener('DOMContentLoaded', () => {
+        checkCounters();
     });
     
-    // 添加自定义CSS样式
-    const style = document.createElement('style');
-    style.textContent = `
-        .scroll-animate.animate {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-/**
- * 初始化业务提升潜力测算功能
- */
-function initPotentialTest() {
-    const qrcodeSection = document.getElementById('potential-test');
+    // 滚动时检查
+    window.addEventListener('scroll', () => {
+        checkCounters();
+    });
     
-    if (!qrcodeSection) return;
-    
-    // 添加悬停效果
-    const qrcodeContainer = qrcodeSection.querySelector('.qrcode-container');
-    if (qrcodeContainer) {
-        qrcodeContainer.addEventListener('mouseenter', () => {
-            const scanAnimation = qrcodeContainer.querySelector('.scan-animation');
-            if (scanAnimation) {
-                scanAnimation.style.animationDuration = '1s';
+    /**
+     * 检查计数器元素是否在视口中
+     */
+    function checkCounters() {
+        counters.forEach(counter => {
+            const parent = counter.closest('.hero-stats, .case-results, .tech-category');
+            
+            if (parent && isElementInViewport(parent) && !counter.classList.contains('counted')) {
+                counter.classList.add('counted');
+                
+                const target = +counter.getAttribute('data-target');
+                let count = 0;
+                
+                const updateCount = () => {
+                    const increment = target / speed;
+                    
+                    if (count < target) {
+                        count += increment;
+                        counter.innerText = Math.ceil(count);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                
+                updateCount();
             }
         });
-        
-        qrcodeContainer.addEventListener('mouseleave', () => {
-            const scanAnimation = qrcodeContainer.querySelector('.scan-animation');
-            if (scanAnimation) {
-                scanAnimation.style.animationDuration = '2s';
-            }
-        });
-    }
-    
-    // 当用户停留在这个部分超过5秒时，更新已测算企业数量
-    const userCountElement = qrcodeSection.querySelector('.user-count strong');
-    if (userCountElement) {
-        let isVisible = false;
-        let initialCount = parseInt(userCountElement.textContent.replace(/,/g, ''));
-        
-        // 检测区块是否在视口中
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    isVisible = true;
-                    // 每隔30-60秒随机增加1-3个数量
-                    setInterval(() => {
-                        if (isVisible) {
-                            const increment = Math.floor(Math.random() * 3) + 1;
-                            initialCount += increment;
-                            userCountElement.textContent = initialCount.toLocaleString();
-                        }
-                    }, Math.random() * 30000 + 30000);
-                } else {
-                    isVisible = false;
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        observer.observe(qrcodeSection);
     }
 }
 
 /**
- * 初始化卡片悬停交互效果
+ * 初始化滚动指示器
  */
-function initCardHoverEffects() {
-    // 案例卡片数值动画
-    const caseCards = document.querySelectorAll('.case-card');
-    caseCards.forEach(card => {
-        const resultValues = card.querySelectorAll('.result-value');
-        
-        card.addEventListener('mouseenter', () => {
-            resultValues.forEach(value => {
-                const finalValue = value.textContent;
-                animateCounterValue(value, finalValue);
+function initScrollIndicator() {
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+            // 滚动到下一个部分
+            const heroHeight = document.querySelector('.hero').offsetHeight;
+            window.scrollTo({
+                top: heroHeight - 50,
+                behavior: 'smooth'
             });
         });
-    });
-    
-    // 技术能力标签粒子效果
-    const techItems = document.querySelectorAll('.tech-item');
-    techItems.forEach(item => {
-        item.addEventListener('mouseenter', createParticleEffect);
-    });
-}
-
-/**
- * 为数值创建计数动画
- * @param {HTMLElement} element - 显示数值的元素
- * @param {string} finalValue - 最终显示的数值
- */
-function animateCounterValue(element, finalValue) {
-    // 检查是否已经有动画在进行
-    if (element.dataset.animating === 'true') return;
-    
-    element.dataset.animating = 'true';
-    
-    // 解析百分比或数字值
-    let isPercentage = finalValue.includes('%');
-    let isNegative = finalValue.startsWith('-');
-    let numericValue = parseFloat(finalValue.replace(/[^0-9.-]/g, ''));
-    
-    // 确定起始值和增量
-    let startValue = 0;
-    let duration = 1000; // 动画持续时间（毫秒）
-    let interval = 16; // 动画间隔时间（毫秒）
-    let steps = duration / interval;
-    let increment = numericValue / steps;
-    
-    // 如果是负值，从负起始值开始
-    if (isNegative) {
-        startValue = -Math.abs(numericValue / 10);
     }
-    
-    let currentValue = startValue;
-    let timer = setInterval(() => {
-        currentValue += increment;
-        
-        // 检查是否达到最终值
-        if ((increment > 0 && currentValue >= numericValue) || 
-            (increment < 0 && currentValue <= numericValue)) {
-            clearInterval(timer);
-            element.textContent = finalValue;
-            setTimeout(() => {
-                element.dataset.animating = 'false';
-            }, 1000);
-        } else {
-            // 格式化数值显示
-            let displayValue = currentValue;
-            if (Math.abs(displayValue) >= 10000) {
-                displayValue = Math.round(displayValue / 1000) + '万';
-            } else {
-                displayValue = Math.round(displayValue * 10) / 10;
-            }
-            
-            // 添加百分号或其他修饰符
-            if (isPercentage) {
-                displayValue = displayValue + '%';
-            }
-            
-            element.textContent = isNegative ? '-' + Math.abs(displayValue) : displayValue;
-        }
-    }, interval);
 }
 
 /**
@@ -307,57 +145,50 @@ function createParticleEffect(e) {
         // 随机样式
         const size = Math.random() * 5 + 3;
         const colorIndex = Math.floor(Math.random() * 3);
-        const colors = ['rgba(67, 97, 238, 0.7)', 'rgba(72, 149, 239, 0.7)', 'rgba(247, 37, 133, 0.5)'];
+        const colors = ['rgba(0, 173, 181, 0.75)', 'rgba(57, 62, 70, 0.65)', 'rgba(238, 238, 238, 0.5)'];
         
         // 设置位置和样式
         const iconRect = icon.getBoundingClientRect();
         const x = iconRect.left + iconRect.width / 2 - size / 2;
         const y = iconRect.top + iconRect.height / 2 - size / 2;
         
-        particle.style.position = 'fixed';
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        particle.style.borderRadius = '50%';
-        particle.style.backgroundColor = colors[colorIndex];
+        particle.style.background = colors[colorIndex];
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
-        particle.style.pointerEvents = 'none';
-        particle.style.zIndex = '1000';
+        particle.style.boxShadow = `0 0 ${size}px ${colors[colorIndex]}`;
         
+        // 添加到DOM
         document.body.appendChild(particle);
         
-        // 动画
-        const angle = Math.random() * Math.PI * 2;
-        const velocity = Math.random() * 60 + 50;
-        const vx = Math.cos(angle) * velocity;
-        const vy = Math.sin(angle) * velocity;
+        // 随机动画
+        const angle = Math.random() * 360 * Math.PI / 180;
+        const velocity = Math.random() * 50 + 30;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity;
         
-        // 使用requestAnimationFrame进行平滑动画
-        let startTime = null;
-        
-        function moveParticle(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const elapsed = timestamp - startTime;
-            
-            // 计算新位置
-            const nx = x + vx * (elapsed / 1000);
-            const ny = y + vy * (elapsed / 1000) - 9.8 * Math.pow(elapsed / 1000, 2) * 20; // 添加重力效果
-            
-            // 设置透明度
-            const opacity = 1 - elapsed / 1000;
-            
-            if (opacity > 0) {
-                particle.style.left = `${nx}px`;
-                particle.style.top = `${ny}px`;
-                particle.style.opacity = opacity;
-                requestAnimationFrame(moveParticle);
-            } else {
+        gsap.to(particle, {
+            x: tx,
+            y: ty,
+            opacity: 0,
+            duration: Math.random() * 1 + 0.5,
+            onComplete: function() {
                 particle.remove();
             }
-        }
-        
-        requestAnimationFrame(moveParticle);
+        });
     }
+}
+
+/**
+ * 为交互元素添加粒子效果
+ */
+function initParticleEffects() {
+    const interactiveItems = document.querySelectorAll('.card-icon, .tech-item, .feature-icon, .case-icon');
+    
+    interactiveItems.forEach(item => {
+        item.addEventListener('mouseenter', createParticleEffect);
+    });
 }
 
 /**
@@ -381,8 +212,97 @@ function initPageLoadAnimation() {
         .header.scrolled {
             padding: 10px 0;
             box-shadow: var(--shadow-md);
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(34, 40, 49, 0.95);
             backdrop-filter: blur(8px);
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .animate-on-scroll.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // 为需要在滚动时显示动画的元素添加类
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        const sectionHeader = section.querySelector('.section-header');
+        const cards = section.querySelectorAll('.challenge-card, .solution-card, .case-card, .tech-category, .feature-item');
+        
+        if (sectionHeader) {
+            sectionHeader.classList.add('animate-on-scroll');
+        }
+        
+        cards.forEach((card, index) => {
+            card.classList.add('animate-on-scroll');
+            card.style.transitionDelay = `${index * 0.1}s`;
+        });
+    });
+}
+
+/**
+ * 初始化技术能力矩阵的交互动画
+ */
+function initTechItemsAnimation() {
+    const techItems = document.querySelectorAll('.tech-item');
+    const techCategories = document.querySelectorAll('.tech-category');
+    
+    // 为技术项添加鼠标悬停效果
+    techItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+                // 添加图标震动效果
+                icon.style.animation = 'pulse 0.5s ease-in-out';
+                
+                // 动画结束后移除，以便再次触发
+                setTimeout(() => {
+                    icon.style.animation = '';
+                }, 500);
+                
+                // 创建粒子效果
+                createParticleEffect({ currentTarget: this });
+            }
+        });
+    });
+    
+    // 为技术类别添加连线效果
+    techCategories.forEach(category => {
+        category.addEventListener('mouseenter', function() {
+            // 添加发光边框效果
+            this.style.boxShadow = '0 0 30px rgba(0, 173, 181, 0.4)';
+            
+            // 添加背景动画
+            const h3 = this.querySelector('h3');
+            if (h3) {
+                h3.style.color = 'var(--primary-color)';
+            }
+        });
+        
+        category.addEventListener('mouseleave', function() {
+            // 恢复正常样式
+            this.style.boxShadow = '';
+            
+            const h3 = this.querySelector('h3');
+            if (h3) {
+                h3.style.color = '';
+            }
+        });
+    });
+    
+    // 添加CSS关键帧动画
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
         }
     `;
     document.head.appendChild(style);
