@@ -44,8 +44,6 @@ body {
     background-color: var(--background-dark);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    padding-top: 80px; /* 为固定导航栏留出空间 */
-    overflow-x: hidden; /* 防止水平滚动条 */
 }
 
 .container {
@@ -1622,90 +1620,85 @@ ul {
 =============================== 
 */
 @media screen and (max-width: 992px) {
-    .container {
-        padding: 0 25px;
-    }
-    
     section {
         padding: 80px 0;
     }
     
     .section-header h2 {
-        font-size: 2.25rem;
+        font-size: 2.2rem;
     }
     
-    .section-header p {
-        font-size: 1rem;
-    }
-    
-    .hero-split {
+    .hero .container {
         flex-direction: column;
-        gap: 50px;
-    }
-    
-    .hero-left, .hero-right {
-        width: 100%;
-        max-width: 100%;
         text-align: center;
     }
     
-    .hero-badge {
-        margin: 0 auto;
+    .hero-content {
+        padding-right: 0;
+        margin-bottom: 60px;
     }
     
-    .hero-title {
+    .tagline {
+        justify-content: center;
+    }
+    
+    .cta-buttons {
+        justify-content: center;
+    }
+    
+    .main-title {
         font-size: 2.8rem;
-    }
-    
-    .hero-stats {
-        justify-content: center;
-    }
-    
-    .stat-item::after {
-        display: none;
-    }
-    
-    .hero-cta {
-        justify-content: center;
-    }
-    
-    .solutions-grid, 
-    .challenges-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-    
-    .steps-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
-    }
-    
-    .tech-matrix {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
     }
     
     .potential-content {
         flex-direction: column;
-        gap: 40px;
+        gap: 30px;
     }
     
-    .potential-info, 
-    .potential-qrcode {
+    .potential-info, .potential-qrcode {
         width: 100%;
-        max-width: 100%;
+    }
+    
+    .potential-info {
+        margin-bottom: 40px;
+    }
+    
+    .qrcode-container {
+        margin: 0 auto;
+        max-width: 200px;
     }
     
     .footer-content {
         flex-direction: column;
-        text-align: center;
-        gap: 30px;
     }
     
     .footer-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .footer-column {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .animated {
+        animation-duration: 0.5s;
+    }
+    
+    .bg-circle, .bg-line {
+        opacity: 0.4;
+    }
+    
+    .section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    
+    .section.visible {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -1714,134 +1707,67 @@ ul {
         padding: 70px 0;
     }
     
-    /* 导航栏 */
     .menu {
-        display: none;
         position: fixed;
-        top: 80px;
-        left: 0;
-        width: 100%;
-        background: var(--background-dark);
+        top: 70px;
+        left: -100%;
         flex-direction: column;
-        align-items: center;
+        background-color: var(--white);
+        width: 100%;
+        text-align: center;
+        transition: var(--transition);
+        box-shadow: var(--shadow-md);
         padding: 20px 0;
         z-index: 1000;
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        transform: translateY(-20px);
-        opacity: 0;
-        transition: all 0.3s ease-in-out;
     }
     
     .menu.active {
-        display: flex;
-        transform: translateY(0);
-        opacity: 1;
+        left: 0;
     }
     
     .menu li {
-        margin: 10px 0;
+        margin: 15px 0;
     }
     
     .menu-toggle {
         display: block;
-        cursor: pointer;
     }
     
-    /* 英雄区域和标题 */
     .hero {
-        padding-top: 100px;
-    }
-    
-    .hero-title {
-        font-size: 2.5rem;
-    }
-    
-    .hero-description {
-        font-size: 1rem;
+        padding: 130px 0 60px;
     }
     
     .section-header h2 {
         font-size: 2rem;
     }
     
-    .section-header p {
-        font-size: 0.95rem;
+    .main-title {
+        font-size: 2.4rem;
     }
     
-    /* 可视化调整 */
-    .hero-visual {
-        transform: scale(0.9);
-        margin: 0 auto;
+    .sub-title {
+        font-size: 1.3rem;
     }
     
-    .central-node {
-        width: 80px;
-        height: 80px;
+    .tagline p {
+        font-size: 1rem;
     }
     
-    .central-node span {
-        font-size: 1.8rem;
-    }
-    
-    .node-1, .node-2, .node-3, .node-4, .node-5 {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .network-node i {
-        font-size: 1.2rem;
-    }
-    
-    /* 布局调整 */
-    .solutions-grid, 
-    .challenges-grid,
-    .tech-matrix {
+    .tech-matrix, 
+    .cases-container {
         grid-template-columns: 1fr;
         gap: 25px;
     }
     
-    .steps-container {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    /* 特性布局调整 */
-    .feature-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-    }
-    
-    .feature-icon {
-        margin: 0 auto;
-    }
-    
-    /* 底部布局 */
-    .footer-content {
-        gap: 20px;
-    }
-    
     .footer-links {
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .footer-column {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
     }
 }
 
 @media screen and (max-width: 576px) {
     section {
         padding: 60px 0;
-    }
-    
-    .container {
-        padding: 0 15px;
     }
     
     .section-header {
@@ -1852,154 +1778,408 @@ ul {
         font-size: 1.8rem;
     }
     
-    .section-header p {
-        font-size: 0.9rem;
-    }
-    
-    .hero-title {
-        font-size: 2.2rem;
-        line-height: 1.2;
-    }
-    
-    .hero-description {
-        font-size: 0.95rem;
-        margin-top: 15px;
-    }
-    
-    .hero-badge span {
-        font-size: 0.8rem;
-        padding: 6px 12px;
-    }
-    
-    .hero-stats {
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .stat-item {
-        width: 100%;
-        padding: 15px 0;
-    }
-    
-    .stat-number {
+    .main-title {
         font-size: 2rem;
     }
     
-    .stat-label {
-        font-size: 0.9rem;
+    .sub-title {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
     }
     
-    .hero-cta {
+    .tagline {
+        align-items: flex-start;
+        margin-bottom: 14px;
+    }
+    
+    .tagline i {
+        margin-top: 2px;
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    
+    .tagline p {
+        font-size: 0.95rem;
+        text-align: left;
+    }
+    
+    .hero-taglines {
+        margin-bottom: 30px;
+    }
+    
+    .challenges-grid,
+    .steps-container, 
+    .solutions-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .case-results {
         flex-direction: column;
         gap: 15px;
-        margin-top: 30px;
+        padding: 15px;
     }
     
-    .hero-cta .btn {
-        width: 100%;
+    .result-item {
+        padding: 10px 0;
     }
     
-    /* 按钮样式调整 */
-    .btn {
-        padding: 10px 24px;
-        font-size: 15px;
-    }
-    
-    /* 内容区域调整 */
-    .challenge-card,
-    .solution-card,
-    .tech-category {
-        padding: 25px 20px;
-    }
-    
-    .challenge-card h3,
-    .solution-card h4,
-    .tech-category h3 {
-        font-size: 1.2rem;
-    }
-    
-    .challenge-card p,
-    .solution-card ul li,
-    .tech-item span {
-        font-size: 0.9rem;
-    }
-    
-    /* 特定区域调整 */
-    .potential-qrcode h3 {
-        font-size: 1.3rem;
-    }
-    
-    .potential-qrcode p {
-        font-size: 0.9rem;
-    }
-    
-    .user-count {
-        font-size: 0.9rem;
-        padding: 8px 15px;
-    }
-    
-    .footer {
-        padding: 50px 0 30px;
-    }
-    
-    .copyright p {
-        font-size: 0.85rem;
-    }
-}
-
-/* 超小屏幕设备 (小型手机, 400px 及以下) */
-@media screen and (max-width: 400px) {
-    .hero-title {
-        font-size: 1.9rem;
-    }
-    
-    .section-header h2 {
-        font-size: 1.6rem;
-    }
-    
-    .card-icon {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .card-icon i {
-        font-size: 1.3rem;
-    }
-    
-    .solution-card {
-        padding: 20px 15px;
+    .feature-item {
+        padding: 20px;
     }
     
     .feature-icon {
-        width: 60px;
-        height: 60px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        margin-right: 15px;
     }
     
-    .feature-icon i {
-        font-size: 1.5rem;
+    .feature-text h3 {
+        font-size: 1.1rem;
     }
     
-    .potential-qrcode h3 {
-        font-size: 1.2rem;
+    .feature-text p {
+        font-size: 0.9rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        padding: 12px 25px;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
     }
 }
 
-/* 安全区域适配 - 刘海屏/挖孔屏 */
-@supports (padding: max(0px)) {
-    .header, 
-    .menu.active {
-        padding-left: max(20px, env(safe-area-inset-left));
-        padding-right: max(20px, env(safe-area-inset-right));
+/* 
+===============================
+   业务提升测算
+=============================== 
+*/
+.potential-test {
+    background-color: var(--background-dark);
+    position: relative;
+    overflow: hidden;
+}
+
+.potential-test::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(72, 166, 167, 0.1) 0%, rgba(72, 166, 167, 0) 70%);
+    z-index: 0;
+}
+
+.potential-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    position: relative;
+    z-index: 1;
+}
+
+.potential-info, .potential-qrcode {
+    flex: 1;
+}
+
+.potential-features {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    background-color: var(--background-light);
+    padding: 25px;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: var(--transition);
+    border: 1px solid rgba(0, 173, 181, 0.15);
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 173, 181, 0.25);
+    border-color: rgba(0, 173, 181, 0.3);
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(154, 203, 208, 0.2), rgba(154, 203, 208, 0.3));
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.feature-item:hover .feature-icon {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--white);
+}
+
+.feature-text h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.feature-text p {
+    color: var(--text-medium);
+    line-height: 1.6;
+}
+
+.potential-qrcode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    background-color: var(--background-light);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 173, 181, 0.15);
+}
+
+.potential-qrcode::before, .potential-qrcode::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    opacity: 0.2;
+    z-index: 0;
+}
+
+.potential-qrcode::before {
+    top: -15px;
+    left: -15px;
+}
+
+.potential-qrcode::after {
+    bottom: -15px;
+    right: -15px;
+}
+
+.qrcode-container {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin-bottom: 25px;
+    z-index: 1;
+}
+
+.qrcode-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.qrcode-container:hover img {
+    transform: scale(1.03);
+    box-shadow: var(--shadow-lg);
+}
+
+.scan-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(to right, rgba(44, 62, 80, 0), rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0));
+    animation: scanning 2s linear infinite;
+    border-radius: 8px;
+    z-index: 2;
+}
+
+@keyframes scanning {
+    0% {
+        top: 0;
     }
-    
-    .container {
-        padding-left: max(20px, env(safe-area-inset-left));
-        padding-right: max(20px, env(safe-area-inset-right));
+    100% {
+        top: calc(100% - 8px);
     }
-    
-    .footer {
-        padding-bottom: max(30px, env(safe-area-inset-bottom));
-    }
+}
+
+.potential-qrcode h3 {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.potential-qrcode p {
+    color: var(--text-medium);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.user-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: var(--border-radius-full);
+    background: linear-gradient(135deg, rgba(0, 173, 181, 0.1), rgba(0, 191, 201, 0.1));
+    color: var(--primary-color);
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.user-count:hover {
+    background: linear-gradient(135deg, rgba(0, 173, 181, 0.12), rgba(0, 191, 201, 0.12));
+    transform: translateY(-3px);
+}
+
+.user-count i {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.user-count strong {
+    font-weight: 600;
+}
+
+/* 
+===============================
+   首页封面样式
+=============================== 
+*/
+.contact-info-direct {
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 12px 20px;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: inline-block;
+}
+
+.contact-info-direct p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.contact-info-direct i {
+    margin-right: 10px;
+    color: var(--secondary-color);
+}
+
+/* 
+===============================
+   联系我们部分样式
+=============================== 
+*/
+.direct-contact-info {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.phone-contact {
+    display: flex;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: var(--background-light);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border: none;
+    margin-bottom: 0;
+    transition: transform 0.3s ease;
+}
+
+.phone-contact:hover {
+    transform: translateY(-5px);
+}
+
+.phone-contact i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-right: 20px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.contact-detail h4 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+}
+
+.contact-detail p {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.header.scrolled {
+    background-color: rgba(242, 239, 231, 0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-md);
+}
+
+.case-results .metric {
+    text-align: center;
+}
+
+.case-results .metric h5 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-medium);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.case-results .metric p {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+/* 添加鼠标悬停效果 */
+.challenge-card:hover,
+.solution-card:hover,
+.step-card:hover,
+.tech-item:hover,
+.btn:hover,
+.menu li a:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 173, 181, 0.25);
+    border-color: rgba(0, 173, 181, 0.3);
 }
 
 /* 动画效果 */
@@ -2020,142 +2200,278 @@ ul {
     animation: fadeInUp 0.8s ease-out forwards;
 }
 
-/* 添加触摸反馈样式 */
-.touch-active {
-    opacity: 0.8;
-    transform: scale(0.97);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+/* 为移动设备优化的触摸交互 */
+@media (hover: none) and (pointer: coarse) {
+  /* 卡片触摸效果 */
+  .challenge-card:active,
+  .solution-card:active,
+  .step-card:active,
+  .tech-item:active {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* 增强按钮触摸反馈 */
+  .btn:active {
+    transform: scale(0.98);
+  }
+  
+  /* 菜单项触摸反馈 */
+  .menu li a:active {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  /* 移除非触摸设备的悬停效果 */
+  .challenge-card:hover,
+  .solution-card:hover,
+  .step-card:hover,
+  .tech-item:hover,
+  .btn:hover,
+  .menu li a:hover {
+    transform: none;
+    box-shadow: var(--card-shadow);
+    background: none;
+  }
+  
+  /* 移动端下滚动更流畅 */
+  html, body {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* 优化移动端点击区域 */
+  .btn, 
+  .menu li a,
+  .tech-item,
+  .footer a {
+    padding: 12px 20px;
+    min-height: 44px; /* 苹果推荐的最小触摸区域高度 */
+  }
 }
 
-/* 添加滚动动画样式 */
-.animate-on-scroll {
+/* 移动端响应式设计调整 */
+@media screen and (max-width: 992px) {
+  .container {
+    padding: 0 20px;
+  }
+  
+  /* 导航菜单 */
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .menu {
+    position: fixed;
+    top: 60px;
+    left: -100%;
+    width: 80%;
+    height: calc(100vh - 60px);
+    background: var(--background-dark);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    z-index: 1000;
+    transition: all 0.4s ease;
+    padding-top: 20px;
+  }
+  
+  .menu.active {
+    left: 0;
+  }
+  
+  .menu li {
+    width: 100%;
+    margin: 0;
+  }
+  
+  .menu li a {
+    display: block;
+    padding: 15px 30px;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+  }
+  
+  /* 首页封面适配 */
+  .hero-split {
+    flex-direction: column;
+    padding: 40px 0;
+  }
+  
+  .hero-left, .hero-right {
+    width: 100%;
+    padding: 0;
+  }
+  
+  .hero-right {
+    margin-top: 50px;
+    height: 300px;
+  }
+  
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .hero-stats {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .stat-item {
+    width: 45%;
+    margin-bottom: 15px;
+  }
+  
+  /* 挑战模块适配 */
+  .challenges-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* 优势模块适配 */
+  .solutions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .steps-container {
+    flex-direction: column;
+  }
+  
+  .step-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* 技术能力模块适配 */
+  .tech-matrix {
+    grid-template-columns: 1fr;
+  }
+  
+  .tech-items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* 潜力测算模块适配 */
+  .potential-content {
+    flex-direction: column;
+  }
+  
+  .potential-info, .potential-qrcode {
+    width: 100%;
+  }
+  
+  .potential-info {
+    margin-bottom: 40px;
+  }
+  
+  .qrcode-container {
+    margin: 0 auto;
+    max-width: 200px;
+  }
+  
+  /* 页脚适配 */
+  .footer-content {
+    flex-direction: column;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .footer-column {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  
+  /* 动画元素适配 */
+  .ai-visual-container {
+    transform: scale(0.8);
+  }
+  
+  .bg-circle, .bg-line {
+    opacity: 0.4;
+  }
+  
+  /* 减少移动端动画量，提高性能 */
+  .animated {
+    animation-duration: 0.5s;
+  }
+  
+  /* 减少视差滚动效果，提高性能 */
+  .bg-circle, .bg-line, .bg-dots {
+    transform: none !important;
+  }
+  
+  /* 移动端下的页面过渡优化 */
+  .section {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.animate-on-scroll.animated {
+  }
+  
+  .section.visible {
     opacity: 1;
     transform: translateY(0);
+  }
 }
 
-/* 为不同元素设置不同的动画延迟 */
-.hero-left.animate-on-scroll {
-    transition-delay: 0.1s;
-}
-
-.hero-right.animate-on-scroll {
-    transition-delay: 0.3s;
-}
-
-.section-header.animate-on-scroll {
-    transition-delay: 0.1s;
-}
-
-.challenge-card:nth-child(1).animate-on-scroll,
-.solution-card:nth-child(1).animate-on-scroll,
-.tech-category:nth-child(1).animate-on-scroll,
-.step-card:nth-child(1).animate-on-scroll,
-.feature-item:nth-child(1).animate-on-scroll {
-    transition-delay: 0.1s;
-}
-
-.challenge-card:nth-child(2).animate-on-scroll,
-.solution-card:nth-child(2).animate-on-scroll,
-.tech-category:nth-child(2).animate-on-scroll,
-.step-card:nth-child(2).animate-on-scroll,
-.feature-item:nth-child(2).animate-on-scroll {
-    transition-delay: 0.2s;
-}
-
-.challenge-card:nth-child(3).animate-on-scroll,
-.solution-card:nth-child(3).animate-on-scroll,
-.tech-category:nth-child(3).animate-on-scroll,
-.step-card:nth-child(3).animate-on-scroll,
-.feature-item:nth-child(3).animate-on-scroll {
-    transition-delay: 0.3s;
-}
-
-.challenge-card:nth-child(4).animate-on-scroll,
-.solution-card:nth-child(4).animate-on-scroll,
-.step-card:nth-child(4).animate-on-scroll {
-    transition-delay: 0.4s;
-}
-
-.challenge-card:nth-child(5).animate-on-scroll {
-    transition-delay: 0.5s;
-}
-
-/* 添加头部滚动样式 */
-.header {
-    position: fixed;
+@media screen and (max-width: 576px) {
+  /* 进一步缩小屏幕的适配 */
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .hero-cta a {
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .stat-item {
     width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.header.scrolled {
-    background-color: rgba(34, 40, 49, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* 修复移动端菜单样式 */
-@media screen and (max-width: 768px) {
-    .menu-toggle i.fa-times {
-        color: var(--primary-color);
-    }
-
-    .header.scrolled .menu {
-        background-color: rgba(34, 40, 49, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-}
-
-/* 适配刘海屏 */
-@supports (padding-top: constant(safe-area-inset-top)) {
-    .header {
-        padding-top: constant(safe-area-inset-top);
-        height: calc(80px + constant(safe-area-inset-top));
-    }
-    
-    body {
-        padding-top: calc(80px + constant(safe-area-inset-top));
-    }
-}
-
-@supports (padding-top: env(safe-area-inset-top)) {
-    .header {
-        padding-top: env(safe-area-inset-top);
-        height: calc(80px + env(safe-area-inset-top));
-    }
-    
-    body {
-        padding-top: calc(80px + env(safe-area-inset-top));
-    }
-}
-
-/* 提高在移动设备上的触摸区域大小 */
-@media (hover: none) and (pointer: coarse) {
-    button,
-    .btn,
-    .menu a,
-    .card-icon,
-    .feature-icon,
-    .tech-item,
-    .network-node {
-        min-height: 44px;
-        min-width: 44px;
-    }
-}
-
-/* 优化移动设备在弱网环境下的图片加载 */
-@media screen and (max-width: 768px) {
-    img {
-        content-visibility: auto;
-    }
+  }
+  
+  .section-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .tech-items {
+    grid-template-columns: 1fr;
+  }
+  
+  .feature-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .feature-icon {
+    margin-bottom: 15px;
+    margin-right: 0;
+  }
+  
+  /* 减少一些填充和边距 */
+  .section {
+    padding: 50px 0;
+  }
+  
+  .challenge-card, .solution-card, .step-card, .tech-item {
+    padding: 15px;
+  }
 } 

@@ -272,13 +272,13 @@ function collectFormData() {
         
         const competitorsStatus = document.getElementById('competitorsStatus')?.value || 'similar';
         
-        const formData = {
-            company: {
+    const formData = {
+        company: {
                 industry: industry,
                 size: companySize,
                 revenue: annualRevenue
-            },
-            assessment: {
+        },
+        assessment: {
                 digitalLevel: digitalLevel,
                 challenges: challenges,
                 priorityArea: priorityArea,
@@ -296,7 +296,7 @@ function collectFormData() {
         };
         
         console.log('收集的表单数据:', formData);
-        return formData;
+    return formData;
     } catch (error) {
         console.error('收集表单数据时出错:', error);
         // 返回默认数据，确保页面不会崩溃
@@ -347,7 +347,7 @@ function generateReport(formData) {
             <div class="report-section-header">
                 <h3>业务提升潜力综合评分</h3>
                 <p>基于您提供的信息，算法分析的业务提升空间</p>
-            </div>
+                </div>
             
             <div class="score-container">
                 <div class="score-circle" style="background: conic-gradient(${getScoreColor(potentialScore)} ${potentialScore}%, rgba(0, 173, 181, 0.1) 0)">
@@ -375,9 +375,9 @@ function generateReport(formData) {
                 <div class="analysis-item">
                     <h4>机遇与挑战</h4>
                     <p>${formData.competitorsStatus === 'behind' ? '作为行业早期采用者，您有机会通过AI技术建立先发优势，但需要更多的探索和试错。' : formData.competitorsStatus === 'similar' ? '行业处于数字化转型关键期，及时部署AI解决方案可以帮助您建立竞争优势。' : '行业竞争激烈，需要更精准和创新的AI应用才能脱颖而出。'}</p>
-                </div>
             </div>
-            
+        </div>
+        
             <div class="report-section-header">
                 <h3>推荐优化方案</h3>
                 <p>针对${getPriorityAreaName(formData.priorityArea)}领域的具体优化建议</p>
@@ -414,8 +414,8 @@ function generateReport(formData) {
             <div class="report-section-header">
                 <h3>实施路径规划</h3>
                 <p>从技术选型、流程优化到人员培训的全面实施计划</p>
-            </div>
-            
+        </div>
+        
             <div class="implementation-steps">
                 ${implementationDetails.map((step, index) => `
                     <div class="implementation-step">
@@ -425,12 +425,12 @@ function generateReport(formData) {
                             <p>${step.description}</p>
                             <div class="timeline">
                                 <span class="timeline-label">建议周期：${step.timeline}</span>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                </div>
+                </div>
                 `).join('')}
-            </div>
-            
+        </div>
+        
             <div class="action-cta">
                 <h3>开启您的AI转型之旅</h3>
                 <p>根据本报告规划您的数字化升级路径</p>
