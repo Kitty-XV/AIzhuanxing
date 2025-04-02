@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollIndicator();
     initTechItemsAnimation();
     initPageLoadAnimation();
+    initScrollWatcher();
+    initScrollToSection();
+    initTouchFeedback();
+    initAnimatedElements();
 });
 
 /**
@@ -20,9 +24,37 @@ function initMenuToggle() {
     if (menuToggle) {
         menuToggle.addEventListener('click', function() {
             menu.classList.toggle('active');
-            menuToggle.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         });
     }
+    
+    const menuItems = document.querySelectorAll('.menu a');
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                menu.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    });
+    
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            menu.classList.remove('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    });
 }
 
 /**
@@ -306,4 +338,94 @@ function initTechItemsAnimation() {
         }
     `;
     document.head.appendChild(style);
+}
+
+/**
+ * 初始化滚动观察器
+ */
+function initScrollWatcher() {
+    const header = document.querySelector('.header');
+    const scrollWatcher = document.createElement('div');
+    
+    scrollWatcher.setAttribute('data-scroll-watcher', '');
+    header.before(scrollWatcher);
+    
+    const scrollObserver = new IntersectionObserver((entries) => {
+        header.classList.toggle('scrolled', !entries[0].isIntersecting);
+    }, { rootMargin: "50px 0px 0px 0px" });
+    
+    scrollObserver.observe(scrollWatcher);
+}
+
+/**
+ * 初始化滚动到指定部分的平滑滚动
+ */
+function initScrollToSection() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // 获取header高度用于偏移
+                const headerHeight = document.querySelector('.header').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
+/**
+ * 初始化触摸反馈
+ */
+function initTouchFeedback() {
+    // 为手机设备添加触摸反馈
+    if ('ontouchstart' in window || navigator.maxTouchPoints) {
+        const interactiveElements = document.querySelectorAll('button, .btn, .card-icon, .feature-icon, .solution-card, .challenge-card');
+        interactiveElements.forEach(el => {
+            el.addEventListener('touchstart', function() {
+                this.classList.add('touch-active');
+            }, {passive: true});
+            
+            el.addEventListener('touchend', function() {
+                this.classList.remove('touch-active');
+            }, {passive: true});
+        });
+    }
+}
+
+/**
+ * 初始化动画元素
+ */
+function initAnimatedElements() {
+    // 动画元素选择
+    const animatedElements = document.querySelectorAll('.hero-left, .hero-right, .section-header, .challenge-card, .solution-card, .tech-category, .step-card, .feature-item');
+    
+    // 创建观察器
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -10% 0px'
+    });
+    
+    // 观察所有元素
+    animatedElements.forEach(el => {
+        observer.observe(el);
+        // 添加基本动画类
+        el.classList.add('animate-on-scroll');
+    });
 } 
