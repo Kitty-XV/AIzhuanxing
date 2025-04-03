@@ -472,202 +472,215 @@ function calculatePotentialScore(formData) {
     let totalScore = 0;
     let maxPossibleScore = 0;
     
-    // 定义评分维度和权重 - 优化权重分配和评分函数，整体提升基础分数
+    // 定义评分维度和权重 - 进一步降低基础系数，增加分数区分度
     const dimensions = {
         digitalLevel: {
             weight: 0.22,
             score: function(value) {
-                // 提高基础分数，尤其是低数字化水平的企业
-                if (value === 'low') return 1.00;      // 低数字化提升空间最大
-                if (value === 'medium') return 0.88;   // 提高中等水平分数
-                if (value === 'high') return 0.70;     // 提高高水平基础分
-                return 0.88;
+                // 进一步降低基础分数
+                if (value === 'low') return 0.72;      // 低数字化提升空间最大，但也有技术挑战
+                if (value === 'medium') return 0.60;   // 降低中等水平分数
+                if (value === 'high') return 0.45;     // 数字化水平高，AI提升空间相对较小
+                return 0.60;
             }
         },
         challenges: {
             weight: 0.18,
             score: function(values) {
-                // 更细致的挑战类型权重，整体提高基础分
+                // 降低挑战类型权重，增加区分度
                 const challengeWeights = {
-                    'labor_cost': 0.92,
-                    'data_quality': 0.98,
-                    'market_competition': 0.85,
-                    'system_limitation': 0.95,
-                    'roi_uncertain': 0.78
+                    'labor_cost': 0.70,
+                    'data_quality': 0.75,
+                    'market_competition': 0.60,
+                    'system_limitation': 0.72,
+                    'roi_uncertain': 0.55
                 };
                 
-                if (!values || values.length === 0) return 0.75; // 提高默认值
+                if (!values || values.length === 0) return 0.50; // 降低默认值
                 
                 let challengeScore = 0;
-                // 考虑挑战类型的组合效应
+                // 降低组合效应影响
                 let combinedEffect = 1.0;
                 
-                // 如果同时存在数据质量和系统限制问题，增加额外权重
+                // 适度降低组合效应权重
                 if (values.includes('data_quality') && values.includes('system_limitation')) {
-                    combinedEffect = 1.15;
+                    combinedEffect = 1.05;
                 }
                 
-                // 如果同时存在人力成本和市场竞争问题，增加额外权重
                 if (values.includes('labor_cost') && values.includes('market_competition')) {
-                    combinedEffect = 1.18;
+                    combinedEffect = 1.06;
                 }
                 
                 for (const challenge of values) {
-                    challengeScore += challengeWeights[challenge] || 0.85;
+                    challengeScore += challengeWeights[challenge] || 0.60;
                 }
                 
-                // 考虑挑战数量的非线性影响，提高基础系数
-                const countEffect = Math.min(values.length, 3) / 3 * 0.2 + 0.90;
+                // 降低挑战数量影响的基础系数
+                const countEffect = Math.min(values.length, 3) / 3 * 0.12 + 0.65;
                 
-                return Math.min((challengeScore / Math.max(values.length, 2)) * combinedEffect * countEffect, 1.0);
+                return Math.min((challengeScore / Math.max(values.length, 2)) * combinedEffect * countEffect, 0.90);
             }
         },
         industry: {
             weight: 0.12,
             score: function(value) {
-                // 增加行业间评分差异，但提高整体基础分
+                // 降低行业评分，增加行业间差异
                 const industryScores = {
-                    'manufacturing': 0.95,
-                    'retail': 0.92,
-                    'service': 0.85,
-                    'logistics': 0.98,
-                    'healthcare': 1.00,
-                    'finance': 0.97,
-                    'education': 0.88,
-                    'other': 0.85
+                    'manufacturing': 0.70,
+                    'retail': 0.65,
+                    'service': 0.58,
+                    'logistics': 0.72,
+                    'healthcare': 0.75,
+                    'finance': 0.70,
+                    'education': 0.60,
+                    'other': 0.55
                 };
-                return industryScores[value] || 0.85;
+                return industryScores[value] || 0.60;
             }
         },
         companySize: {
             weight: 0.08,
             score: function(value) {
-                // 提高各规模企业基础分
-                if (value === 'medium') return 0.98; 
-                if (value === 'large') return 0.95; 
-                if (value === 'small') return 0.90; 
-                return 0.95;
+                // 更科学地调整企业规模影响
+                if (value === 'medium') return 0.75; // 中型企业最适合AI转型
+                if (value === 'large') return 0.65; // 大型企业转型复杂度高
+                if (value === 'small') return 0.60; // 小型企业资源有限
+                return 0.65;
             }
         },
         dataUsage: {
             weight: 0.16,
             score: function(value) {
-                // 提高数据应用各等级基础分
-                if (value === 'low') return 0.95;   // 数据应用低，提升空间大
-                if (value === 'medium') return 0.85;
-                if (value === 'high') return 0.75;  // 已有良好数据应用，仍有提升空间
-                return 0.85;
+                // 降低数据应用各等级基础分
+                if (value === 'low') return 0.68;   // 数据应用低，虽有提升空间但基础差
+                if (value === 'medium') return 0.60;
+                if (value === 'high') return 0.48;  // 已有良好数据应用，提升空间有限
+                return 0.58;
             }
         },
         techAcceptance: {
             weight: 0.14,
             score: function(value) {
-                // 提高技术接受度各级别基础分
-                if (value === 'high') return 0.99;  // 高接受度，几乎满分
-                if (value === 'medium') return 0.85;
-                if (value === 'low') return 0.70;   // 提高低接受度基础分
-                return 0.85;
+                // 技术接受度直接影响转型成功率
+                if (value === 'high') return 0.75;  // 高接受度是成功关键
+                if (value === 'medium') return 0.60;
+                if (value === 'low') return 0.42;   // 低接受度是严重障碍
+                return 0.60;
             }
         },
         itBudget: {
             weight: 0.15,
             score: function(value) {
-                // 提高各预算等级基础分
+                // 预算是转型的现实约束
                 const budgetScores = {
-                    'verylow': 0.65,  // 提高极低预算基础分
-                    'low': 0.75,
-                    'medium': 0.85,
-                    'high': 0.95,
-                    'veryhigh': 1.00
+                    'verylow': 0.35,  // 极低预算很难支持转型
+                    'low': 0.48,
+                    'medium': 0.60,
+                    'high': 0.70,
+                    'veryhigh': 0.78
                 };
-                return budgetScores[value] || 0.80;
+                return budgetScores[value] || 0.55;
             }
         },
         aiExpectations: {
             weight: 0.08,
             score: function(values) {
-                if (!values || values.length === 0) return 0.75; // 提高默认值
+                if (!values || values.length === 0) return 0.50; // 降低默认值
                 
-                // 期望种类影响分数，全面提高基础分
+                // 期望类型影响评分
                 const expectationWeights = {
-                    'efficiency': 0.90,
-                    'decision': 0.95,
-                    'innovation': 0.98,
-                    'cost': 0.88,
-                    'quality': 0.92
+                    'efficiency': 0.65,
+                    'decision': 0.70,
+                    'innovation': 0.75,
+                    'cost': 0.62,
+                    'quality': 0.68
                 };
                 
                 let expectationScore = 0;
                 for (const exp of values) {
-                    expectationScore += expectationWeights[exp] || 0.85;
+                    expectationScore += expectationWeights[exp] || 0.60;
                 }
                 
-                // 提高基础系数
-                return 0.7 + Math.min(expectationScore / 5, 1) * 0.3;
+                // 降低基础系数
+                return 0.45 + Math.min(expectationScore / 5, 1) * 0.3;
             }
         },
         competitorsStatus: {
             weight: 0.15,
             score: function(value) {
-                // 提高竞争压力各等级基础分
-                if (value === 'behind') return 0.85;  // 领先竞争对手，仍有动力
-                if (value === 'similar') return 0.90; // 需要保持同步
-                if (value === 'ahead') return 0.95;   // 急需赶上
-                if (value === 'leading') return 1.00; // 极度紧迫
-                return 0.90;
+                // 竞争压力是转型驱动力
+                if (value === 'behind') return 0.55;  // 领先竞争对手，动力较弱
+                if (value === 'similar') return 0.65; // 需要保持同步，适中动力
+                if (value === 'ahead') return 0.75;   // 急需赶上，较强动力
+                if (value === 'leading') return 0.80; // 极度紧迫，强动力
+                return 0.65;
             }
         },
         aiAwareness: {
             weight: 0.08,
             score: function(value) {
-                // 提高AI认知水平基础系数
+                // AI认知水平影响实施效果
                 const awareness = parseInt(value) || 3;
-                return 0.7 + (awareness / 5) * 0.3; // 1-5分映射到0.7-1.0
+                return 0.40 + (awareness / 5) * 0.35; // 1-5分映射到0.40-0.75
             }
         },
         revenue: {
             weight: 0.06,
             score: function(value) {
-                // 提高各营收规模基础分
+                // 营收规模影响投资能力
                 const revenueScores = {
-                    'level1': 0.85, // 1000万以下
-                    'level2': 0.88, // 1000-5000万
-                    'level3': 0.92, // 5000万-1亿
-                    'level4': 0.98, // 1-10亿
-                    'level5': 0.95  // 10亿以上
+                    'level1': 0.55, // 1000万以下
+                    'level2': 0.60, // 1000-5000万
+                    'level3': 0.65, // 5000万-1亿
+                    'level4': 0.70, // 1-10亿
+                    'level5': 0.68  // 10亿以上，规模大但转型复杂
                 };
-                return revenueScores[value] || 0.90;
+                return revenueScores[value] || 0.60;
             }
         }
     };
     
-    // 计算每个维度的得分与总分 - 添加维度交叉影响
-    // 创建交叉影响矩阵 - 某些因素组合会产生额外效果，增加更多有利组合
+    // 计算每个维度的得分与总分 - 降低维度交叉影响
+    // 创建交叉影响矩阵 - 降低组合效应
     const combinationEffects = [
         {
             factors: ['digitalLevel', 'dataUsage'],
             condition: (values) => values.digitalLevel === 'low' && values.dataUsage === 'low',
-            effect: 1.15 // 数字化低+数据利用低，AI提升空间最大
+            effect: 1.04 // 降低组合效应
         },
         {
             factors: ['techAcceptance', 'itBudget'],
             condition: (values) => values.techAcceptance === 'high' && (values.itBudget === 'high' || values.itBudget === 'veryhigh'),
-            effect: 1.12 // 技术接受度高+预算充足，转型顺利度高
+            effect: 1.05 // 降低组合效应
         },
         {
             factors: ['companySize', 'challenges'],
             condition: (values) => values.companySize === 'medium' && values.challenges.includes('labor_cost'),
-            effect: 1.10 // 中型企业+人力成本挑战，自动化效益高
+            effect: 1.03 // 降低组合效应
         },
         {
             factors: ['industry', 'dataUsage'],
             condition: (values) => (values.industry === 'manufacturing' || values.industry === 'logistics') && values.dataUsage === 'medium',
-            effect: 1.08 // 制造业/物流+中等数据应用，数字孪生等技术应用潜力大
+            effect: 1.03 // 降低组合效应
+        }
+    ];
+    
+    // 添加负面组合效应 - 某些因素组合会产生负面影响
+    const negativeCombinationEffects = [
+        {
+            factors: ['techAcceptance', 'itBudget'],
+            condition: (values) => values.techAcceptance === 'low' && (values.itBudget === 'verylow' || values.itBudget === 'low'),
+            effect: 0.90 // 技术接受度低且预算低，转型难度大增
         },
         {
-            factors: ['industry', 'competitorsStatus'],
-            condition: (values) => values.competitorsStatus === 'ahead' || values.competitorsStatus === 'leading',
-            effect: 1.10 // 任何行业+竞争对手领先，转型紧迫性高
+            factors: ['digitalLevel', 'dataUsage'],
+            condition: (values) => values.digitalLevel === 'low' && values.dataUsage === 'low' && values.techAcceptance === 'low',
+            effect: 0.85 // 数字化水平低、数据应用低、技术接受度低，三重障碍
+        },
+        {
+            factors: ['companySize', 'itBudget'],
+            condition: (values) => values.companySize === 'small' && values.itBudget === 'verylow',
+            effect: 0.92 // 小企业低预算，资源严重不足
         }
     ];
     
@@ -697,31 +710,63 @@ function calculatePotentialScore(formData) {
         maxPossibleScore += dimension.weight * 100;
     }
     
-    // 应用组合效应，最多应用两个效应，防止分数过高超出真实性
+    // 应用正面组合效应，限制一个效应
     let appliedEffects = 0;
     for (const effect of combinationEffects) {
-        if (effect.condition(factorValues) && appliedEffects < 2) {
+        if (effect.condition(factorValues) && appliedEffects < 1) {
             totalScore = totalScore * effect.effect;
             appliedEffects++;
             // 记录加成效果
-            console.log(`应用组合效应: ${effect.factors.join('+')} 乘以 ${effect.effect}`);
+            console.log(`应用正面组合效应: ${effect.factors.join('+')} 乘以 ${effect.effect}`);
         }
     }
     
-    // 基础分增加，确保最低分数
-    totalScore = Math.max(totalScore, 45); // 设置最低45分的基础分
+    // 应用负面组合效应，负面效应可以叠加，最多两个
+    let appliedNegativeEffects = 0;
+    for (const effect of negativeCombinationEffects) {
+        if (effect.condition(factorValues) && appliedNegativeEffects < 2) {
+            totalScore = totalScore * effect.effect;
+            appliedNegativeEffects++;
+            // 记录负面效果
+            console.log(`应用负面组合效应: ${effect.factors.join('+')} 乘以 ${effect.effect}`);
+        }
+    }
     
-    // 添加偏向高分的随机因素(±5%)
-    const randomFactor = 1 + ((Math.random() * 8) - 3) / 100; // 更偏向正向调整
+    // 设置分数下限，但不要过高
+    totalScore = Math.max(totalScore, 20); // 降低最低保底分为20分
+    
+    // 小幅随机波动，增加区分度
+    const randomFactor = 1 + ((Math.random() * 5) - 2.5) / 100; // ±2.5%的随机波动
     totalScore = totalScore * randomFactor;
     
-    // 非线性得分曲线 - 调整S曲线使中间分数偏高
+    // 完全重构S曲线，使分数分布更均匀，避免集中在高分区
+    // 使用更平缓的S曲线转换，让中低分更常见
     const normalizedScore = totalScore / 100;
-    // 修改S曲线参数，使分数整体偏高
-    const curvedScore = 1 / (1 + Math.exp(-12 * (normalizedScore - 0.4))) * 100;
     
-    // 确保最终分数在中等以上并取整
-    const finalScore = Math.min(Math.max(Math.round(curvedScore), 55), 100); // 设置最低得分为55
+    // 新的S曲线参数，使得分布更合理
+    // 使用更平缓的斜率和中点位于0.6，这样大部分分数会在中低区间
+    const curvedScore = 1 / (1 + Math.exp(-8 * (normalizedScore - 0.6))) * 100;
+    
+    // 确保分数有合理分布，同时降低最高分
+    let finalScore = Math.min(Math.max(Math.round(curvedScore), 20), 90); 
+    
+    // 特殊情况处理：极端低值组合
+    if (factorValues.digitalLevel === 'low' && 
+        factorValues.dataUsage === 'low' && 
+        factorValues.techAcceptance === 'low' && 
+        (factorValues.itBudget === 'verylow' || factorValues.itBudget === 'low')) {
+        // 几乎所有关键指标都很差，强制降低分数
+        finalScore = Math.min(finalScore, 30);
+    }
+    
+    // 特殊情况处理：极端高值组合
+    if (factorValues.techAcceptance === 'high' && 
+        factorValues.dataUsage === 'high' && 
+        (factorValues.itBudget === 'high' || factorValues.itBudget === 'veryhigh') &&
+        factorValues.competitorsStatus === 'ahead') {
+        // 几乎所有关键指标都很好，但最高分仍有上限
+        finalScore = Math.min(Math.max(finalScore, 75), 90);
+    }
     
     // 调试信息
     console.log('原始潜力得分:', totalScore.toFixed(2));
@@ -887,78 +932,133 @@ function getImplementationDetails(formData, potentialScore) {
     const priorityArea = formData.assessment.priorityArea || formData.priorityArea;
     const steps = [];
     
-    // 第一步：评估与规划
-    steps.push({
-        title: '业务评估与规划',
-        description: '全面评估当前业务流程，识别AI应用机会点，制定详细实施计划。',
-        timeline: '2-4周'
-    });
-    
-    // 第二步：数据准备
-    steps.push({
-        title: '数据准备与治理',
-        description: '整合并清洗相关业务数据，建立数据标准，为AI应用奠定基础。',
-        timeline: '3-6周'
-    });
-    
-    // 根据优先领域添加特定步骤
-    if (priorityArea === 'production') {
+    // 根据分数调整第一步
+    if (potentialScore >= 65) {
+        // 高分段 - 直接开始业务评估
         steps.push({
-            title: '生产流程智能化改造',
-            description: '部署预测性生产排程系统，建立设备智能监控平台，优化生产资源配置。',
-            timeline: '6-8周'
+            title: '业务评估与规划',
+            description: '全面评估当前业务流程，识别AI应用机会点，制定详细实施计划。',
+            timeline: '2-4周'
         });
-    } else if (priorityArea === 'sales') {
+    } else if (potentialScore >= 45) {
+        // 中分段 - 需要先进行数字化准备
         steps.push({
-            title: '营销与销售智能系统构建',
-            description: '实施客户行为分析系统，建立需求预测模型，开发个性化推荐引擎。',
-            timeline: '5-7周'
-        });
-    } else if (priorityArea === 'service') {
-        steps.push({
-            title: '智能客户服务平台搭建',
-            description: '部署智能客服系统，建立客户画像分析，提升服务效率与满意度。',
-            timeline: '4-6周'
-        });
-    } else if (priorityArea === 'management') {
-        steps.push({
-            title: '管理决策支持系统构建',
-            description: '开发业务智能分析平台，构建预警机制，优化资源调配与绩效管理。',
-            timeline: '5-8周'
-        });
-    } else if (priorityArea === 'supplychain') {
-        steps.push({
-            title: '供应链优化系统实施',
-            description: '建立智能库存管理，优化物流配送路径，提升供应链透明度与响应速度。',
-            timeline: '6-9周'
+            title: '数字化基础评估',
+            description: '评估企业数字化基础水平，找出薄弱环节，制定数字化升级计划。',
+            timeline: '3-5周'
         });
     } else {
+        // 低分段 - 需要基础培训和意识提升
         steps.push({
-            title: '核心业务流程智能化',
-            description: '针对关键业务环节进行智能化改造，提升效率并降低成本。',
-            timeline: '5-8周'
+            title: 'AI认知与基础建设',
+            description: '开展AI基础培训，提高团队认知度，同时评估和规划基础数字化建设需求。',
+            timeline: '4-6周'
         });
     }
     
-    // 第四步：培训与调整
-    steps.push({
-        title: '人员培训与系统调优',
-        description: '对相关人员进行系统操作培训，根据实际使用情况对系统进行持续优化。',
-        timeline: '3-4周'
-    });
+    // 第二步根据得分不同调整
+    if (potentialScore >= 65) {
+        steps.push({
+            title: '数据准备与治理',
+            description: '整合并清洗相关业务数据，建立数据标准，为AI应用奠定基础。',
+            timeline: '3-6周'
+        });
+    } else if (potentialScore >= 45) {
+        steps.push({
+            title: '数据收集与管理体系建设',
+            description: '建立关键业务数据的采集机制，搭建基础数据管理平台，提升数据质量。',
+            timeline: '6-8周'
+        });
+    } else {
+        steps.push({
+            title: '数字化流程改造',
+            description: '改造关键业务流程，实现数据的数字化采集，建立基础数据库。',
+            timeline: '8-12周'
+        });
+    }
     
-    // 第五步：扩展与迭代
-    if (potentialScore >= 70) {
+    // 根据优先领域和得分添加特定步骤
+    if (potentialScore >= 65) {
+        // 高分段可以直接实施行业解决方案
+        if (priorityArea === 'production') {
+            steps.push({
+                title: '生产流程智能化改造',
+                description: '部署预测性生产排程系统，建立设备智能监控平台，优化生产资源配置。',
+                timeline: '6-8周'
+            });
+        } else if (priorityArea === 'sales') {
+            steps.push({
+                title: '营销与销售智能系统构建',
+                description: '实施客户行为分析系统，建立需求预测模型，开发个性化推荐引擎。',
+                timeline: '5-7周'
+            });
+        } else if (priorityArea === 'service') {
+            steps.push({
+                title: '智能客户服务平台搭建',
+                description: '部署智能客服系统，建立客户画像分析，提升服务效率与满意度。',
+                timeline: '4-6周'
+            });
+        } else if (priorityArea === 'management') {
+            steps.push({
+                title: '管理决策支持系统构建',
+                description: '开发业务智能分析平台，构建预警机制，优化资源调配与绩效管理。',
+                timeline: '5-8周'
+            });
+        } else if (priorityArea === 'supplychain') {
+            steps.push({
+                title: '供应链优化系统实施',
+                description: '建立智能库存管理，优化物流配送路径，提升供应链透明度与响应速度。',
+                timeline: '6-9周'
+            });
+        } else {
+            steps.push({
+                title: '核心业务流程智能化',
+                description: '针对关键业务环节进行智能化改造，提升效率并降低成本。',
+                timeline: '5-8周'
+            });
+        }
+    } else {
+        // 中低分段需要先进行小规模尝试
+        steps.push({
+            title: '小规模AI应用试点',
+            description: '选择一个低风险、高回报的业务场景，进行AI应用小规模试点，验证效果。',
+            timeline: '8-10周'
+        });
+    }
+    
+    // 第四步：根据分数调整培训与调整阶段
+    if (potentialScore >= 65) {
+        steps.push({
+            title: '人员培训与系统调优',
+            description: '对相关人员进行系统操作培训，根据实际使用情况对系统进行持续优化。',
+            timeline: '3-4周'
+        });
+    } else {
+        steps.push({
+            title: '能力建设与技术培训',
+            description: '加强团队技术能力建设，培养内部数据分析和AI应用人才，为后续扩展做准备。',
+            timeline: '6-8周'
+        });
+    }
+    
+    // 第五步：根据得分调整扩展计划
+    if (potentialScore >= 75) {
         steps.push({
             title: '全面推广与持续迭代',
             description: '将成功经验推广到更多业务场景，建立长效迭代机制，持续提升系统价值。',
             timeline: '持续进行'
         });
+    } else if (potentialScore >= 55) {
+        steps.push({
+            title: '效果评估与阶段性扩展',
+            description: '评估试点效果，总结经验教训，分阶段扩展到其他业务领域。',
+            timeline: '6-8周后启动'
+        });
     } else {
         steps.push({
-            title: '效果评估与扩展规划',
-            description: '评估试点效果，总结经验教训，规划下一阶段扩展方向。',
-            timeline: '4-6周后启动'
+            title: '效果评估与数字化深化',
+            description: '评估初期实施效果，完善数字化基础，为未来可能的AI转型做铺垫。',
+            timeline: '12周后评估'
         });
     }
     
@@ -971,24 +1071,22 @@ function getImplementationDetails(formData, potentialScore) {
  * @returns {string} 颜色值
  */
 function getScoreColor(score) {
-    if (score >= 90) {
+    if (score >= 80) {
         return '#00b894'; // 明亮的绿色-蓝色
-    } else if (score >= 80) {
-        return '#00cec9'; // 青绿色
     } else if (score >= 70) {
-        return '#0984e3'; // 鲜艳的蓝色
+        return '#00cec9'; // 青绿色
     } else if (score >= 60) {
-        return '#6c5ce7'; // 紫蓝色
+        return '#0984e3'; // 鲜艳的蓝色
     } else if (score >= 50) {
-        return '#a29bfe'; // 淡紫色
+        return '#6c5ce7'; // 紫蓝色
     } else if (score >= 40) {
-        return '#fdcb6e'; // 黄色
+        return '#a29bfe'; // 淡紫色
     } else if (score >= 30) {
-        return '#e17055'; // 珊瑚色
+        return '#fdcb6e'; // 黄色
     } else if (score >= 20) {
-        return '#d63031'; // 红色
+        return '#e17055'; // 珊瑚色
     } else {
-        return '#636e72'; // 灰色
+        return '#d63031'; // 红色
     }
 }
 
@@ -998,24 +1096,22 @@ function getScoreColor(score) {
  * @returns {string} 描述文本
  */
 function getScoreDescription(score) {
-    if (score >= 90) {
-        return '您的企业具有极高的AI转型潜力，各方面条件已经非常成熟，可以立即启动全面的AI战略布局，有望获得行业领先优势。';
-    } else if (score >= 80 && score < 90) {
-        return '您的企业具有很高的AI转型潜力，基础条件良好，建议尽快制定并实施全面的AI战略计划，可以获得显著的业务提升。';
+    if (score >= 80) {
+        return '您的企业在AI转型方面具有较高潜力，关键指标表现良好。不过实施过程中仍需注意技术和人员的协调配合，并针对具体业务场景进行定制化设计，避免技术与业务需求脱节。';
     } else if (score >= 70 && score < 80) {
-        return '您的企业具有较高的AI转型潜力，多项关键指标表现良好，建议优先针对核心业务痛点开展AI应用，将获得明显收益。';
+        return '您的企业具有中上水平的AI转型潜力，部分条件已经成熟。建议从单一业务场景入手，打造成功案例后再逐步扩展。同时需加强数据治理能力，为后续应用奠定基础。';
     } else if (score >= 60 && score < 70) {
-        return '您的企业具有良好的AI转型潜力，具备实施AI解决方案的基础条件，建议从小规模试点开始，逐步扩大应用范围。';
+        return '您的企业具有一定的AI转型潜力，但同时面临一些挑战。建议选择痛点明确、ROI较高的小规模项目开始，并在实施前深入评估技术条件和组织准备度，以降低风险。';
     } else if (score >= 50 && score < 60) {
-        return '您的企业具有中等偏上的AI转型潜力，在某些领域已具备应用AI的条件，建议选择成熟度高的AI解决方案进行试点。';
+        return '您的企业AI转型准备度处于中等水平，部分基础条件有待完善。建议首先加强数据收集和处理能力，提升团队数字化意识，选择成熟度较高的标准化解决方案尝试。';
     } else if (score >= 40 && score < 50) {
-        return '您的企业具有中等的AI转型潜力，可能在数据基础或技术接受度方面存在一定挑战，建议先完善数字化基础，同时开展小范围AI应用探索。';
+        return '您的企业在AI转型方面面临较多挑战，数字化基础或组织准备度不足。建议先聚焦于基础数字化建设，改进业务流程，培养数据驱动的决策文化，暂缓复杂AI项目。';
     } else if (score >= 30 && score < 40) {
-        return '您的企业具有一定的AI转型潜力，但可能面临多方面挑战，建议优先提升数据管理能力和数字化水平，为未来AI应用奠定基础。';
+        return '您的企业目前AI转型条件尚不成熟，存在多项关键障碍。建议专注于解决数字化转型中的基础问题，如系统整合、数据采集等，并可考虑邀请外部专家进行诊断和指导。';
     } else if (score >= 20 && score < 30) {
-        return '您的企业目前AI转型潜力较为有限，可能需要首先解决数字化转型中的基础问题，建议从流程优化和数据收集开始，为未来应用AI做准备。';
+        return '您的企业在AI转型方面存在明显的基础性障碍，建议现阶段以数字化转型为主要目标，完善IT基础设施，标准化业务流程，为未来可能的AI应用创造条件。';
     } else {
-        return '您的企业当前AI转型潜力较低，建议先专注于基础数字化能力建设，完善IT基础设施和数据采集流程，待条件成熟后再考虑AI应用。';
+        return '您的企业当前尚未具备AI转型的基本条件，面临严峻挑战。建议先解决组织中的根本性数字化问题，投入资源提升基础设施和技术接受度，循序渐进地推进数字化建设。';
     }
 }
 
