@@ -232,11 +232,16 @@ ul {
 
 .logo h1 {
     font-size: 1.8rem;
-    color: var(--text-dark);
+    color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .logo span {
-    color: var(--secondary-color);
+    color: var(--text-dark);
+    -webkit-text-fill-color: var(--text-dark);
 }
 
 .menu {
