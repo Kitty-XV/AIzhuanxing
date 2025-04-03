@@ -230,6 +230,16 @@ ul {
     align-items: center;
 }
 
+.logo a {
+    text-decoration: none;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.logo a:hover {
+    transform: scale(1.05);
+}
+
 .logo h1 {
     font-size: 1.8rem;
     color: var(--primary-color);

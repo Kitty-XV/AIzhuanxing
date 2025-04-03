@@ -83,6 +83,16 @@ ul {
     border-bottom: 1px solid rgba(0, 173, 181, 0.2);
 }
 
+.logo a {
+    text-decoration: none;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.logo a:hover {
+    transform: scale(1.05);
+}
+
 .logo h1 {
     font-size: 1.8rem;
     background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
