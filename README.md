@@ -1,11 +1,11 @@
-# AI转型咨询服务网站
+# ZIK Lab 咨询服务网站
 
-这是一个展示AI转型咨询服务的静态网站，使用HTML、CSS和JavaScript构建。
+这是一个展示ZIK Lab咨询服务的静态网站，使用HTML、CSS和JavaScript构建。
 
 ## 项目结构
 
 ```
-ai-transformation/
+zik-lab/
 ├── index.html        # 主页面
 ├── css/              # 样式文件目录
 │   └── style.css     # 主样式文件
@@ -46,8 +46,8 @@ ai-transformation/
 
 ## 联系方式
 
-如有任何问题或建议，请联系：info@aitransform.com
+如有任何问题或建议，请联系：info@ziklab.com
 
 ---
 
-© 2025 AI转型咨询服务. 保留所有权利。 
+© 2025 ZIK Lab. 保留所有权利。 

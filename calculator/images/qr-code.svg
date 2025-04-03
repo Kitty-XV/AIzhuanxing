@@ -135,5 +135,5 @@
   
   <!-- 中心Logo -->
   <rect x="75" y="75" width="50" height="50" fill="white" rx="5"/>
-  <text x="100" y="105" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#2563eb">AI转型</text>
+  <text x="100" y="105" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#2563eb">ZIK Lab</text>
 </svg> 
