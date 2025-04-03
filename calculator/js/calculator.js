@@ -435,6 +435,10 @@ function generateReport(formData) {
                 <h3>开启您的AI转型之旅</h3>
                 <p>根据本报告规划您的数字化升级路径</p>
                 <a href="../index.html" class="btn-action">返回主页获取更多信息</a>
+                <div class="contact-info">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>立即预约免费咨询 → +86 132-6472-0888 / +86 150-3531-0160</span>
+                </div>
                 <div class="disclaimer-note">
                     <i class="fas fa-info-circle"></i>
                     <span>本评估结果基于算法分析，仅供参考，实际业务提升效果可能因企业具体情况而异。</span>
