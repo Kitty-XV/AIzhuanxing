@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initTechItemsAnimation();
     initPageLoadAnimation();
     handleScrollAnimations();
+    initUserCounter();
 });
 
 /**
@@ -386,4 +387,54 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.classList.add('fa-bars');
         }
     });
-}); 
+});
+
+/**
+ * 计算器点击计数功能
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // 为"立即测算"点击绑定事件
+    const calculatorLinks = document.querySelectorAll('.potential-qrcode a');
+    calculatorLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            incrementUserCounter();
+        });
+    });
+});
+
+/**
+ * 初始化用户计数器
+ */
+function initUserCounter() {
+    // 检查是否存在计数
+    let count = parseInt(localStorage.getItem('calculationCount')) || 2847;
+    updateUserCountDisplay(count);
+}
+
+/**
+ * 增加用户计数
+ */
+function incrementUserCounter() {
+    // 获取当前计数
+    let count = parseInt(localStorage.getItem('calculationCount')) || 2847;
+    
+    // 增加计数
+    count += 1;
+    
+    // 保存到localStorage
+    localStorage.setItem('calculationCount', count);
+    
+    // 更新显示
+    updateUserCountDisplay(count);
+}
+
+/**
+ * 更新用户计数显示
+ * @param {number} count - 要显示的计数
+ */
+function updateUserCountDisplay(count) {
+    const userCountElements = document.querySelectorAll('.user-count strong');
+    userCountElements.forEach(element => {
+        element.textContent = count.toLocaleString('zh-CN');
+    });
+} 

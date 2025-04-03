@@ -867,23 +867,21 @@ button:hover {
 }
 
 .contact-info {
-    margin-top: 20px;
-    margin-bottom: 15px;
-    padding: 18px;
-    background-color: rgba(0, 173, 181, 0.15);
-    border-radius: var(--border-radius-sm);
     display: flex;
     align-items: center;
+    padding: 18px;
+    margin: 20px 0;
+    background-color: rgba(0, 173, 181, 0.15);
+    border-radius: 8px;
     border-left: 4px solid var(--primary-color);
-    transition: var(--transition);
+    transition: all 0.3s ease;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 173, 181, 0.15);
 }
 
 .contact-info:hover {
     background-color: rgba(0, 173, 181, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 173, 181, 0.15);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 173, 181, 0.25);
 }
 
 .contact-info i {
@@ -893,9 +891,44 @@ button:hover {
 }
 
 .contact-info span {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.05rem;
-    color: var(--white);
+    color: var(--text-dark);
+}
+
+.user-stats {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin: 20px 0;
+    background-color: rgba(2, 128, 144, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid #028090;
+    transition: all 0.3s ease;
+}
+
+.user-stats:hover {
+    background-color: rgba(2, 128, 144, 0.2);
+    box-shadow: 0 4px 10px rgba(2, 128, 144, 0.12);
+    transform: translateY(-2px);
+}
+
+.user-stats i {
+    font-size: 1.25rem;
+    color: #028090;
+    margin-right: 12px;
+}
+
+.user-stats span {
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-dark);
+}
+
+.user-stats strong {
+    font-weight: 700;
+    color: #028090;
+    padding: 0 3px;
 }
 
 .disclaimer-note i {
@@ -933,5 +966,15 @@ button:hover {
     
     .action-cta {
         padding: 30px 20px;
+    }
+    
+    .contact-info, .user-stats {
+        padding: 14px;
+        flex-direction: row;
+        text-align: left;
+    }
+    
+    .contact-info span, .user-stats span {
+        font-size: 0.95rem;
     }
 } 

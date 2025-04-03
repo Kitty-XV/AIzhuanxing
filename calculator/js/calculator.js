@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 设置默认表单显示
     showActivePart();
+    
+    // 加载当前计数
+    loadUserCounter();
 });
 
 /**
@@ -190,6 +193,36 @@ function getParentByClassName(element, className) {
 }
 
 /**
+ * 加载用户计数
+ */
+function loadUserCounter() {
+    // 获取当前localStorage中的计数，如果没有则使用默认值
+    let count = parseInt(localStorage.getItem('calculationCount')) || 2847;
+    
+    // 如果是通过提交表单到达报告页面，在localStorage中存储新的计数
+    if (window.location.hash === '#report') {
+        incrementUserCounter(count);
+    }
+}
+
+/**
+ * 增加用户计数
+ * @param {number} currentCount - 当前计数值
+ */
+function incrementUserCounter(currentCount) {
+    // 获取当前计数或使用传入值
+    let count = currentCount || parseInt(localStorage.getItem('calculationCount')) || 2847;
+    
+    // 增加计数
+    count += 1;
+    
+    // 保存到localStorage
+    localStorage.setItem('calculationCount', count);
+    
+    return count;
+}
+
+/**
  * 提交表单并生成报告
  */
 function submitForm() {
@@ -197,6 +230,9 @@ function submitForm() {
     if (!validateCurrentPart(currentPart)) {
         return;
     }
+    
+    // 增加用户计数
+    incrementUserCounter();
     
     // 隐藏表单，显示报告部分
     document.querySelectorAll('.calculator-form').forEach(part => {
@@ -338,6 +374,9 @@ function generateReport(formData) {
     // 获取实施细节
     const implementationDetails = getImplementationDetails(formData, potentialScore);
     
+    // 获取当前用户计数
+    const userCount = parseInt(localStorage.getItem('calculationCount')) || 2847;
+    
     // 构建报告HTML
     const reportBody = document.getElementById('reportBody');
     
@@ -439,6 +478,10 @@ function generateReport(formData) {
                     <i class="fas fa-phone-alt"></i>
                     <span>立即预约免费咨询 → +86 132-6472-0888 / +86 150-3531-0160</span>
                 </div>
+                <div class="user-stats">
+                    <i class="fas fa-users"></i>
+                    <span>已有<strong>${userCount.toLocaleString('zh-CN')}</strong>家企业完成测算</span>
+                </div>
                 <div class="disclaimer-note">
                     <i class="fas fa-info-circle"></i>
                     <span>本评估结果基于算法分析，仅供参考，实际业务提升效果可能因企业具体情况而异。</span>
@@ -464,6 +507,9 @@ function generateReport(formData) {
     
     // 滚动到顶部
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // 设置URL哈希以便刷新页面时识别报告状态
+    window.location.hash = 'report';
 }
 
 /**
