@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>ZIK Lab</title>
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#222831" />
+            <stop offset="100%" stop-color="#393E46" />
+        </linearGradient>
+        <linearGradient id="letterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00ADB5" />
+            <stop offset="100%" stop-color="#00BFC9" />
+        </linearGradient>
+    </defs>
+    
+    <!-- 背景 -->
+    <rect width="32" height="32" rx="8" fill="url(#bgGradient)"/>
+    
+    <!-- ZIK字母设计 -->
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Z -->
+        <path d="M8,12 L14,12 L8,20 L14,20" stroke="url(#letterGradient)" stroke-width="2.5"/>
+        
+        <!-- I -->
+        <line x1="17" y1="12" x2="17" y2="20" stroke="#EEEEEE" stroke-width="2.5"/>
+        
+        <!-- K -->
+        <path d="M20,12 L20,20 M20,16 L24,12 M20,16 L24,20" stroke="url(#letterGradient)" stroke-width="2.5"/>
+    </g>
+</svg> 
